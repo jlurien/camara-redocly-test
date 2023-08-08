@@ -1,4 +1,4 @@
-name: Build Redocly # Based on https://github.com/jizt-it/jizt-api-spec/blob/main/make.sh
+name: Build Redocly  # Based on https://github.com/jizt-it/jizt-api-spec/blob/main/make.sh
 on:
   push:
     branches:
