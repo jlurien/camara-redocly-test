@@ -51,8 +51,6 @@ externalDocs:
   url: https://github.com/camaraproject/
 security:
   - oAuth2ClientCredentials: []
-#  - BasicAuth: []
-#  - apiKey: []
   - three_legged:
     - location-verification-read
 servers:
@@ -410,4 +408,3 @@ components:
             status: 503
             code: UNAVAILABLE
             message: 'Service unavailable'
-            
