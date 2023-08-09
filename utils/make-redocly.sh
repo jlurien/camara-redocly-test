@@ -6,7 +6,7 @@ echo "Getting started"
 for file in ./code/API_definitions/*.yaml
 do
     # Read info.version from the yaml file and use it as the version for the HTML file
-    version=$(grep "info:" $file | sed -n 's/\s*version:\s*//p')
+    version=$(grep "version:" $file | sed -n 's/\s*version:\s*//p')
     echo "Building $file for version $version"
     npx @redocly/cli build-docs $file -o ./$(basename $file .yaml)_$(version).html
 done
