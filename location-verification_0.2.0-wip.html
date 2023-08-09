@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf8" />
+  <title>Device location verification API</title>
+  <!-- needed for adaptive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <script src="https://cdn.redoc.ly/redoc/v2.0.0/bundles/redoc.standalone.js"></script><style data-styled="true" data-styled-version="5.3.11">.oJKYx{width:calc(100% - 40%);padding:0 40px;}/*!sc*/
+@media print,screen and (max-width:75rem){.oJKYx{width:100%;padding:40px 40px;}}/*!sc*/
+.diIqQJ{width:calc(100% - 40%);padding:0 40px;}/*!sc*/
+@media print,screen and (max-width:75rem){.diIqQJ{width:100%;padding:0px 40px;}}/*!sc*/
+data-styled.g4[id="sc-fqkvVR"]{content:"oJKYx,diIqQJ,"}/*!sc*/
+.bBkGhy{padding:40px 0;}/*!sc*/
+.bBkGhy:last-child{min-height:calc(100vh + 1px);}/*!sc*/
+.sc-dcJsrY > .sc-dcJsrY:last-child{min-height:initial;}/*!sc*/
+@media print,screen and (max-width:75rem){.bBkGhy{padding:0;}}/*!sc*/
+.cqVkUp{padding:40px 0;position:relative;}/*!sc*/
+.cqVkUp:last-child{min-height:calc(100vh + 1px);}/*!sc*/
+.sc-dcJsrY > .sc-dcJsrY:last-child{min-height:initial;}/*!sc*/
+@media print,screen and (max-width:75rem){.cqVkUp{padding:0;}}/*!sc*/
+.cqVkUp:not(:last-of-type):after{position:absolute;bottom:0;width:100%;display:block;content:'';border-bottom:1px solid rgba(0,0,0,0.2);}/*!sc*/
+data-styled.g5[id="sc-dcJsrY"]{content:"bBkGhy,cqVkUp,"}/*!sc*/
+.ibAZSi{width:40%;color:#ffffff;background-color:#263238;padding:0 40px;}/*!sc*/
+@media print,screen and (max-width:75rem){.ibAZSi{width:100%;padding:40px 40px;}}/*!sc*/
+data-styled.g6[id="sc-iGgWBj"]{content:"ibAZSi,"}/*!sc*/
+.eDeKjd{background-color:#263238;}/*!sc*/
+data-styled.g7[id="sc-gsFSXq"]{content:"eDeKjd,"}/*!sc*/
+.hBQWIZ{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;width:100%;padding:0;}/*!sc*/
+@media print,screen and (max-width:75rem){.hBQWIZ{-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}}/*!sc*/
+data-styled.g8[id="sc-kAyceB"]{content:"hBQWIZ,"}/*!sc*/
+.cILgPb{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#333333;}/*!sc*/
+data-styled.g9[id="sc-imWYAI"]{content:"cILgPb,"}/*!sc*/
+.fWnwAh{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;margin:0 0 20px;}/*!sc*/
+data-styled.g10[id="sc-jXbUNg"]{content:"fWnwAh,"}/*!sc*/
+.eBBgSB{color:#ffffff;}/*!sc*/
+data-styled.g12[id="sc-kpDqfm"]{content:"eBBgSB,"}/*!sc*/
+.jbQuod{border-bottom:1px solid rgba(38,50,56,0.3);margin:1em 0 1em 0;color:rgba(38,50,56,0.5);font-weight:normal;text-transform:uppercase;font-size:0.929em;line-height:20px;}/*!sc*/
+data-styled.g13[id="sc-dAlyuH"]{content:"jbQuod,"}/*!sc*/
+.kbdRLs{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.kbdRLs:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+h1:hover > .sc-jlZhew::before,h2:hover > .kbdRLs::before,.kbdRLs:hover::before{visibility:visible;}/*!sc*/
+data-styled.g14[id="sc-jlZhew"]{content:"kbdRLs,"}/*!sc*/
+.kZTEzX{height:18px;width:18px;min-width:18px;vertical-align:middle;float:right;-webkit-transition:-webkit-transform 0.2s ease-out;-webkit-transition:transform 0.2s ease-out;transition:transform 0.2s ease-out;-webkit-transform:rotateZ(-90deg);-ms-transform:rotateZ(-90deg);transform:rotateZ(-90deg);}/*!sc*/
+.iZRiKW{height:1.3em;width:1.3em;min-width:1.3em;vertical-align:middle;-webkit-transition:-webkit-transform 0.2s ease-out;-webkit-transition:transform 0.2s ease-out;transition:transform 0.2s ease-out;-webkit-transform:rotateZ(-90deg);-ms-transform:rotateZ(-90deg);transform:rotateZ(-90deg);}/*!sc*/
+.ivsSRP{height:18px;width:18px;min-width:18px;vertical-align:middle;-webkit-transition:-webkit-transform 0.2s ease-out;-webkit-transition:transform 0.2s ease-out;transition:transform 0.2s ease-out;-webkit-transform:rotateZ(-90deg);-ms-transform:rotateZ(-90deg);transform:rotateZ(-90deg);}/*!sc*/
+.hWEnWx{height:1.5em;width:1.5em;min-width:1.5em;vertical-align:middle;float:left;-webkit-transition:-webkit-transform 0.2s ease-out;-webkit-transition:transform 0.2s ease-out;transition:transform 0.2s ease-out;-webkit-transform:rotateZ(-90deg);-ms-transform:rotateZ(-90deg);transform:rotateZ(-90deg);}/*!sc*/
+.hWEnWx polygon{fill:#1d8127;}/*!sc*/
+.cSkZlF{height:1.5em;width:1.5em;min-width:1.5em;vertical-align:middle;float:left;-webkit-transition:-webkit-transform 0.2s ease-out;-webkit-transition:transform 0.2s ease-out;transition:transform 0.2s ease-out;-webkit-transform:rotateZ(-90deg);-ms-transform:rotateZ(-90deg);transform:rotateZ(-90deg);}/*!sc*/
+.cSkZlF polygon{fill:#d41f1c;}/*!sc*/
+.iVFMLx{height:20px;width:20px;min-width:20px;vertical-align:middle;float:right;-webkit-transition:-webkit-transform 0.2s ease-out;-webkit-transition:transform 0.2s ease-out;transition:transform 0.2s ease-out;-webkit-transform:rotateZ(0);-ms-transform:rotateZ(0);transform:rotateZ(0);}/*!sc*/
+.iVFMLx polygon{fill:white;}/*!sc*/
+data-styled.g15[id="sc-cwHptR"]{content:"kZTEzX,iZRiKW,ivsSRP,hWEnWx,cSkZlF,iVFMLx,"}/*!sc*/
+.hZbWKe{border-left:1px solid #7c7cbb;box-sizing:border-box;position:relative;padding:10px 10px 10px 0;}/*!sc*/
+@media screen and (max-width:50rem){.hZbWKe{display:block;overflow:hidden;}}/*!sc*/
+tr:first-of-type > .sc-dLMFU,tr.last > .hZbWKe{border-left-width:0;background-position:top left;background-repeat:no-repeat;background-size:1px 100%;}/*!sc*/
+tr:first-of-type > .sc-dLMFU{background-image:linear-gradient( to bottom, transparent 0%, transparent 22px, #7c7cbb 22px, #7c7cbb 100% );}/*!sc*/
+tr.last > .sc-dLMFU{background-image:linear-gradient( to bottom, #7c7cbb 0%, #7c7cbb 22px, transparent 22px, transparent 100% );}/*!sc*/
+tr.last + tr > .sc-dLMFU{border-left-color:transparent;}/*!sc*/
+tr.last:first-child > .sc-dLMFU{background:none;border-left-color:transparent;}/*!sc*/
+data-styled.g18[id="sc-dLMFU"]{content:"hZbWKe,"}/*!sc*/
+.jXkfaY{vertical-align:top;line-height:20px;white-space:nowrap;font-size:13px;font-family:Courier,monospace;}/*!sc*/
+.jXkfaY.deprecated{-webkit-text-decoration:line-through;text-decoration:line-through;color:#707070;}/*!sc*/
+data-styled.g20[id="sc-eldPxv"]{content:"jXkfaY,"}/*!sc*/
+.bAXEAa{border-bottom:1px solid #9fb4be;padding:10px 0;width:75%;box-sizing:border-box;}/*!sc*/
+tr.expanded .sc-fPXMVe{border-bottom:none;}/*!sc*/
+@media screen and (max-width:50rem){.bAXEAa{padding:0 20px;border-bottom:none;border-left:1px solid #7c7cbb;}tr.last > .sc-fPXMVe{border-left:none;}}/*!sc*/
+data-styled.g21[id="sc-fPXMVe"]{content:"bAXEAa,"}/*!sc*/
+.eRqgPI{color:#7c7cbb;font-family:Courier,monospace;margin-right:10px;}/*!sc*/
+.eRqgPI::before{content:'';display:inline-block;vertical-align:middle;width:10px;height:1px;background:#7c7cbb;}/*!sc*/
+.eRqgPI::after{content:'';display:inline-block;vertical-align:middle;width:1px;background:#7c7cbb;height:7px;}/*!sc*/
+data-styled.g22[id="sc-gFqAkR"]{content:"eRqgPI,"}/*!sc*/
+.ccPhmY{border-collapse:separate;border-radius:3px;font-size:14px;border-spacing:0;width:100%;}/*!sc*/
+.ccPhmY > tr{vertical-align:middle;}/*!sc*/
+@media screen and (max-width:50rem){.ccPhmY{display:block;}.ccPhmY > tr,.ccPhmY > tbody > tr{display:block;}}/*!sc*/
+@media screen and (max-width:50rem) and (-ms-high-contrast:none){.ccPhmY td{float:left;width:100%;}}/*!sc*/
+.ccPhmY .sc-ikkxIA,.ccPhmY .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA,.ccPhmY .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA{margin:1em;margin-right:0;background:#fafafa;}/*!sc*/
+.ccPhmY .sc-ikkxIA .sc-ikkxIA,.ccPhmY .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA,.ccPhmY .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA .sc-ikkxIA{background:#ffffff;}/*!sc*/
+data-styled.g24[id="sc-dAbbOL"]{content:"ccPhmY,"}/*!sc*/
+.dHowgL > ul{list-style:none;padding:0;margin:0;margin:0 -5px;}/*!sc*/
+.dHowgL > ul > li{padding:5px 10px;display:inline-block;background-color:#11171a;border-bottom:1px solid rgba(0,0,0,0.5);cursor:pointer;text-align:center;outline:none;color:#ccc;margin:0 5px 5px 5px;border:1px solid #07090b;border-radius:5px;min-width:60px;font-size:0.9em;font-weight:bold;}/*!sc*/
+.dHowgL > ul > li.react-tabs__tab--selected{color:#333333;background:#ffffff;}/*!sc*/
+.dHowgL > ul > li.react-tabs__tab--selected:focus{outline:auto;}/*!sc*/
+.dHowgL > ul > li:only-child{-webkit-flex:none;-ms-flex:none;flex:none;min-width:100px;}/*!sc*/
+.dHowgL > ul > li.tab-success{color:#1d8127;}/*!sc*/
+.dHowgL > ul > li.tab-redirect{color:#ffa500;}/*!sc*/
+.dHowgL > ul > li.tab-info{color:#87ceeb;}/*!sc*/
+.dHowgL > ul > li.tab-error{color:#d41f1c;}/*!sc*/
+.dHowgL > .react-tabs__tab-panel{background:#11171a;}/*!sc*/
+.dHowgL > .react-tabs__tab-panel > div,.dHowgL > .react-tabs__tab-panel > pre{padding:20px;margin:0;}/*!sc*/
+.dHowgL > .react-tabs__tab-panel > div > pre{padding:0;}/*!sc*/
+data-styled.g30[id="sc-bXCLTC"]{content:"dHowgL,"}/*!sc*/
+.gTGgei code[class*='language-'],.gTGgei pre[class*='language-']{text-shadow:0 -0.1em 0.2em black;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;}/*!sc*/
+@media print{.gTGgei code[class*='language-'],.gTGgei pre[class*='language-']{text-shadow:none;}}/*!sc*/
+.gTGgei pre[class*='language-']{padding:1em;margin:0.5em 0;overflow:auto;}/*!sc*/
+.gTGgei .token.comment,.gTGgei .token.prolog,.gTGgei .token.doctype,.gTGgei .token.cdata{color:hsl(30,20%,50%);}/*!sc*/
+.gTGgei .token.punctuation{opacity:0.7;}/*!sc*/
+.gTGgei .namespace{opacity:0.7;}/*!sc*/
+.gTGgei .token.property,.gTGgei .token.tag,.gTGgei .token.number,.gTGgei .token.constant,.gTGgei .token.symbol{color:#4a8bb3;}/*!sc*/
+.gTGgei .token.boolean{color:#e64441;}/*!sc*/
+.gTGgei .token.selector,.gTGgei .token.attr-name,.gTGgei .token.string,.gTGgei .token.char,.gTGgei .token.builtin,.gTGgei .token.inserted{color:#a0fbaa;}/*!sc*/
+.gTGgei .token.selector + a,.gTGgei .token.attr-name + a,.gTGgei .token.string + a,.gTGgei .token.char + a,.gTGgei .token.builtin + a,.gTGgei .token.inserted + a,.gTGgei .token.selector + a:visited,.gTGgei .token.attr-name + a:visited,.gTGgei .token.string + a:visited,.gTGgei .token.char + a:visited,.gTGgei .token.builtin + a:visited,.gTGgei .token.inserted + a:visited{color:#4ed2ba;-webkit-text-decoration:underline;text-decoration:underline;}/*!sc*/
+.gTGgei .token.property.string{color:white;}/*!sc*/
+.gTGgei .token.operator,.gTGgei .token.entity,.gTGgei .token.url,.gTGgei .token.variable{color:hsl(40,90%,60%);}/*!sc*/
+.gTGgei .token.atrule,.gTGgei .token.attr-value,.gTGgei .token.keyword{color:hsl(350,40%,70%);}/*!sc*/
+.gTGgei .token.regex,.gTGgei .token.important{color:#e90;}/*!sc*/
+.gTGgei .token.important,.gTGgei .token.bold{font-weight:bold;}/*!sc*/
+.gTGgei .token.italic{font-style:italic;}/*!sc*/
+.gTGgei .token.entity{cursor:help;}/*!sc*/
+.gTGgei .token.deleted{color:red;}/*!sc*/
+data-styled.g32[id="sc-eeDRCY"]{content:"gTGgei,"}/*!sc*/
+.efufqz{opacity:0.7;-webkit-transition:opacity 0.3s ease;transition:opacity 0.3s ease;text-align:right;}/*!sc*/
+.efufqz:focus-within{opacity:1;}/*!sc*/
+.efufqz > button{background-color:transparent;border:0;color:inherit;padding:2px 10px;font-family:Roboto,sans-serif;font-size:14px;line-height:1.5em;cursor:pointer;outline:0;}/*!sc*/
+.efufqz > button:hover,.efufqz > button:focus{background:rgba(255,255,255,0.1);}/*!sc*/
+data-styled.g33[id="sc-koXPp"]{content:"efufqz,"}/*!sc*/
+.IVbWU{position:relative;}/*!sc*/
+data-styled.g38[id="sc-kOHTFB"]{content:"IVbWU,"}/*!sc*/
+.eUMxuS{position:absolute;pointer-events:none;z-index:1;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);right:8px;margin:auto;text-align:center;}/*!sc*/
+.eUMxuS polyline{color:white;}/*!sc*/
+data-styled.g39[id="sc-dtInlm"]{content:"eUMxuS,"}/*!sc*/
+.jAtzSo{box-sizing:border-box;min-width:100px;outline:none;display:inline-block;border-radius:2px;border:1px solid rgba(38,50,56,0.5);vertical-align:bottom;padding:2px 0px 2px 6px;position:relative;width:auto;background:white;color:#263238;font-family:Montserrat,sans-serif;font-size:0.929em;line-height:1.5em;cursor:pointer;-webkit-transition:border 0.25s ease,color 0.25s ease,box-shadow 0.25s ease;transition:border 0.25s ease,color 0.25s ease,box-shadow 0.25s ease;}/*!sc*/
+.jAtzSo label{box-sizing:border-box;min-width:100px;outline:none;display:inline-block;font-family:Montserrat,sans-serif;color:#333333;vertical-align:bottom;width:auto;text-transform:none;padding:0 22px 0 4px;font-size:0.929em;line-height:1.5em;font-family:inherit;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}/*!sc*/
+.jAtzSo .dropdown-select{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;border:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer;color:#333333;line-height:inherit;font-family:inherit;}/*!sc*/
+.jAtzSo:hover,.jAtzSo:focus-within{border:1px solid #32329f;color:#32329f;box-shadow:0px 0px 0px 1px #32329f;}/*!sc*/
+data-styled.g40[id="sc-kOPcWz"]{content:"jAtzSo,"}/*!sc*/
+.cPThXn{margin-left:10px;text-transform:none;font-size:0.929em;color:black;}/*!sc*/
+data-styled.g42[id="sc-eBMEME"]{content:"cPThXn,"}/*!sc*/
+.dJWFsO{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.dJWFsO p:last-child{margin-bottom:0;}/*!sc*/
+.dJWFsO h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.dJWFsO h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.dJWFsO code{color:#e53935;background-color:rgba(38,50,56,0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38,50,56,0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.dJWFsO pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0px;border:1px solid rgba(38,50,56,0.1);}/*!sc*/
+.dJWFsO pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.dJWFsO pre code:before,.dJWFsO pre code:after{content:none;}/*!sc*/
+.dJWFsO blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.dJWFsO img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.dJWFsO ul,.dJWFsO ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.dJWFsO ul ul,.dJWFsO ol ul,.dJWFsO ul ol,.dJWFsO ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.dJWFsO table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.dJWFsO table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.dJWFsO table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.dJWFsO table th,.dJWFsO table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.dJWFsO table th{text-align:left;font-weight:bold;}/*!sc*/
+.dJWFsO .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.dJWFsO .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.dJWFsO h1:hover > .share-link::before,.dJWFsO h2:hover > .share-link::before,.dJWFsO .share-link:hover::before{visibility:visible;}/*!sc*/
+.dJWFsO a{-webkit-text-decoration:auto;text-decoration:auto;color:#32329f;}/*!sc*/
+.dJWFsO a:visited{color:#32329f;}/*!sc*/
+.dJWFsO a:hover{color:#6868cf;-webkit-text-decoration:auto;text-decoration:auto;}/*!sc*/
+.dwkgVY{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.dwkgVY p:last-child{margin-bottom:0;}/*!sc*/
+.dwkgVY p:first-child{margin-top:0;}/*!sc*/
+.dwkgVY p:last-child{margin-bottom:0;}/*!sc*/
+.dwkgVY h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.dwkgVY h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.dwkgVY code{color:#e53935;background-color:rgba(38,50,56,0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38,50,56,0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.dwkgVY pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0px;border:1px solid rgba(38,50,56,0.1);}/*!sc*/
+.dwkgVY pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.dwkgVY pre code:before,.dwkgVY pre code:after{content:none;}/*!sc*/
+.dwkgVY blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.dwkgVY img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.dwkgVY ul,.dwkgVY ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.dwkgVY ul ul,.dwkgVY ol ul,.dwkgVY ul ol,.dwkgVY ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.dwkgVY table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.dwkgVY table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.dwkgVY table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.dwkgVY table th,.dwkgVY table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.dwkgVY table th{text-align:left;font-weight:bold;}/*!sc*/
+.dwkgVY .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.dwkgVY .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.dwkgVY h1:hover > .share-link::before,.dwkgVY h2:hover > .share-link::before,.dwkgVY .share-link:hover::before{visibility:visible;}/*!sc*/
+.dwkgVY a{-webkit-text-decoration:auto;text-decoration:auto;color:#32329f;}/*!sc*/
+.dwkgVY a:visited{color:#32329f;}/*!sc*/
+.dwkgVY a:hover{color:#6868cf;-webkit-text-decoration:auto;text-decoration:auto;}/*!sc*/
+data-styled.g43[id="sc-dCFHLb"]{content:"dJWFsO,dwkgVY,"}/*!sc*/
+.gducij{font-family:Roboto,sans-serif;font-weight:400;line-height:1.5em;}/*!sc*/
+.gducij p:last-child{margin-bottom:0;}/*!sc*/
+.gducij p:first-child{margin-top:0;}/*!sc*/
+.gducij p:last-child{margin-bottom:0;}/*!sc*/
+.gducij p{display:inline-block;}/*!sc*/
+.gducij h1{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.85714em;line-height:1.6em;color:#32329f;margin-top:0;}/*!sc*/
+.gducij h2{font-family:Montserrat,sans-serif;font-weight:400;font-size:1.57143em;line-height:1.6em;color:#333333;}/*!sc*/
+.gducij code{color:#e53935;background-color:rgba(38,50,56,0.05);font-family:Courier,monospace;border-radius:2px;border:1px solid rgba(38,50,56,0.1);padding:0 5px;font-size:13px;font-weight:400;word-break:break-word;}/*!sc*/
+.gducij pre{font-family:Courier,monospace;white-space:pre;background-color:#11171a;color:white;padding:20px;overflow-x:auto;line-height:normal;border-radius:0px;border:1px solid rgba(38,50,56,0.1);}/*!sc*/
+.gducij pre code{background-color:transparent;color:white;padding:0;}/*!sc*/
+.gducij pre code:before,.gducij pre code:after{content:none;}/*!sc*/
+.gducij blockquote{margin:0;margin-bottom:1em;padding:0 15px;color:#777;border-left:4px solid #ddd;}/*!sc*/
+.gducij img{max-width:100%;box-sizing:content-box;}/*!sc*/
+.gducij ul,.gducij ol{padding-left:2em;margin:0;margin-bottom:1em;}/*!sc*/
+.gducij ul ul,.gducij ol ul,.gducij ul ol,.gducij ol ol{margin-bottom:0;margin-top:0;}/*!sc*/
+.gducij table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;border-collapse:collapse;border-spacing:0;margin-top:1.5em;margin-bottom:1.5em;}/*!sc*/
+.gducij table tr{background-color:#fff;border-top:1px solid #ccc;}/*!sc*/
+.gducij table tr:nth-child(2n){background-color:#fafafa;}/*!sc*/
+.gducij table th,.gducij table td{padding:6px 13px;border:1px solid #ddd;}/*!sc*/
+.gducij table th{text-align:left;font-weight:bold;}/*!sc*/
+.gducij .share-link{cursor:pointer;margin-left:-20px;padding:0;line-height:1;width:20px;display:inline-block;outline:0;}/*!sc*/
+.gducij .share-link:before{content:'';width:15px;height:15px;background-size:contain;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMCIgeT0iMCIgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjMDEwMTAxIiBkPSJNNDU5LjcgMjMzLjRsLTkwLjUgOTAuNWMtNTAgNTAtMTMxIDUwLTE4MSAwIC03LjktNy44LTE0LTE2LjctMTkuNC0yNS44bDQyLjEtNDIuMWMyLTIgNC41LTMuMiA2LjgtNC41IDIuOSA5LjkgOCAxOS4zIDE1LjggMjcuMiAyNSAyNSA2NS42IDI0LjkgOTAuNSAwbDkwLjUtOTAuNWMyNS0yNSAyNS02NS42IDAtOTAuNSAtMjQuOS0yNS02NS41LTI1LTkwLjUgMGwtMzIuMiAzMi4yYy0yNi4xLTEwLjItNTQuMi0xMi45LTgxLjYtOC45bDY4LjYtNjguNmM1MC01MCAxMzEtNTAgMTgxIDBDNTA5LjYgMTAyLjMgNTA5LjYgMTgzLjQgNDU5LjcgMjMzLjR6TTIyMC4zIDM4Mi4ybC0zMi4yIDMyLjJjLTI1IDI0LjktNjUuNiAyNC45LTkwLjUgMCAtMjUtMjUtMjUtNjUuNiAwLTkwLjVsOTAuNS05MC41YzI1LTI1IDY1LjUtMjUgOTAuNSAwIDcuOCA3LjggMTIuOSAxNy4yIDE1LjggMjcuMSAyLjQtMS40IDQuOC0yLjUgNi44LTQuNWw0Mi4xLTQyYy01LjQtOS4yLTExLjYtMTgtMTkuNC0yNS44IC01MC01MC0xMzEtNTAtMTgxIDBsLTkwLjUgOTAuNWMtNTAgNTAtNTAgMTMxIDAgMTgxIDUwIDUwIDEzMSA1MCAxODEgMGw2OC42LTY4LjZDMjc0LjYgMzk1LjEgMjQ2LjQgMzkyLjMgMjIwLjMgMzgyLjJ6Ii8+PC9zdmc+Cg==');opacity:0.5;visibility:hidden;display:inline-block;vertical-align:middle;}/*!sc*/
+.gducij h1:hover > .share-link::before,.gducij h2:hover > .share-link::before,.gducij .share-link:hover::before{visibility:visible;}/*!sc*/
+.gducij a{-webkit-text-decoration:auto;text-decoration:auto;color:#32329f;}/*!sc*/
+.gducij a:visited{color:#32329f;}/*!sc*/
+.gducij a:hover{color:#6868cf;-webkit-text-decoration:auto;text-decoration:auto;}/*!sc*/
+data-styled.g44[id="sc-fhzFiK"]{content:"gducij,"}/*!sc*/
+.ebiVIa{position:relative;}/*!sc*/
+data-styled.g45[id="sc-jxOSlx"]{content:"ebiVIa,"}/*!sc*/
+.HQFTv:hover > .sc-koXPp{opacity:1;}/*!sc*/
+data-styled.g50[id="sc-fXSgeo"]{content:"HQFTv,"}/*!sc*/
+.hMzemk{font-family:Courier,monospace;font-size:13px;white-space:pre;contain:content;overflow-x:auto;}/*!sc*/
+.hMzemk .redoc-json code > .collapser{display:none;pointer-events:none;}/*!sc*/
+.hMzemk .callback-function{color:gray;}/*!sc*/
+.hMzemk .collapser:after{content:'-';cursor:pointer;}/*!sc*/
+.hMzemk .collapsed > .collapser:after{content:'+';cursor:pointer;}/*!sc*/
+.hMzemk .ellipsis:after{content:' … ';}/*!sc*/
+.hMzemk .collapsible{margin-left:2em;}/*!sc*/
+.hMzemk .hoverable{padding-top:1px;padding-bottom:1px;padding-left:2px;padding-right:2px;border-radius:2px;}/*!sc*/
+.hMzemk .hovered{background-color:rgba(235,238,249,1);}/*!sc*/
+.hMzemk .collapser{background-color:transparent;border:0;color:#fff;font-family:Courier,monospace;font-size:13px;padding-right:6px;padding-left:6px;padding-top:0;padding-bottom:0;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;width:15px;height:15px;position:absolute;top:4px;left:-1.5em;cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-user-select:none;padding:2px;}/*!sc*/
+.hMzemk .collapser:focus{outline-color:#fff;outline-style:dotted;outline-width:1px;}/*!sc*/
+.hMzemk ul{list-style-type:none;padding:0px;margin:0px 0px 0px 26px;}/*!sc*/
+.hMzemk li{position:relative;display:block;}/*!sc*/
+.hMzemk .hoverable{display:inline-block;}/*!sc*/
+.hMzemk .selected{outline-style:solid;outline-width:1px;outline-style:dotted;}/*!sc*/
+.hMzemk .collapsed > .collapsible{display:none;}/*!sc*/
+.hMzemk .ellipsis{display:none;}/*!sc*/
+.hMzemk .collapsed > .ellipsis{display:inherit;}/*!sc*/
+data-styled.g51[id="sc-JrDLc"]{content:"hMzemk,"}/*!sc*/
+.dMqZRk{padding:0.9em;background-color:rgba(38,50,56,0.4);margin:0 0 10px 0;display:block;font-family:Montserrat,sans-serif;font-size:0.929em;line-height:1.5em;}/*!sc*/
+data-styled.g52[id="sc-fjvvzt"]{content:"dMqZRk,"}/*!sc*/
+.hzinCC{font-family:Montserrat,sans-serif;font-size:12px;position:absolute;z-index:1;top:-11px;left:12px;font-weight:600;color:rgba(255,255,255,0.7);}/*!sc*/
+data-styled.g53[id="sc-bbSZdi"]{content:"hzinCC,"}/*!sc*/
+.hEqesG{position:relative;}/*!sc*/
+data-styled.g54[id="sc-fBWQRz"]{content:"hEqesG,"}/*!sc*/
+.bhOzdY{margin:0 0 10px 0;display:block;background-color:rgba(38,50,56,0.4);border:none;padding:0.9em 1.6em 0.9em 0.9em;box-shadow:none;}/*!sc*/
+.bhOzdY label{color:#ffffff;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;font-size:1em;text-transform:none;border:none;}/*!sc*/
+.bhOzdY:hover,.bhOzdY:focus-within{border:none;box-shadow:none;background-color:rgba(38,50,56,0.7);}/*!sc*/
+data-styled.g55[id="sc-hknOHE"]{content:"bhOzdY,"}/*!sc*/
+.gKuDgt{margin-top:15px;}/*!sc*/
+data-styled.g57[id="sc-hCPjZK"]{content:"gKuDgt,"}/*!sc*/
+.gQgOVd button{background-color:transparent;border:0;outline:0;font-size:13px;font-family:Courier,monospace;cursor:pointer;padding:0;color:#333333;}/*!sc*/
+.gQgOVd button:focus{font-weight:600;}/*!sc*/
+.gQgOVd .sc-cwHptR{height:1.1em;width:1.1em;}/*!sc*/
+.gQgOVd .sc-cwHptR polygon{fill:#666;}/*!sc*/
+data-styled.g58[id="sc-Nxspf"]{content:"gQgOVd,"}/*!sc*/
+.ecSUzn{vertical-align:middle;font-size:13px;line-height:20px;}/*!sc*/
+data-styled.g59[id="sc-cfxfcM"]{content:"ecSUzn,"}/*!sc*/
+.bbMYmV{color:rgba(102,102,102,0.9);}/*!sc*/
+data-styled.g60[id="sc-gFAWRd"]{content:"bbMYmV,"}/*!sc*/
+.hUewpb{color:#666;}/*!sc*/
+data-styled.g61[id="sc-gmPhUn"]{content:"hUewpb,"}/*!sc*/
+.jYwVIK{color:#666;word-break:break-word;}/*!sc*/
+data-styled.g62[id="sc-hRJfrW"]{content:"jYwVIK,"}/*!sc*/
+.jJvHFQ{vertical-align:middle;font-size:13px;line-height:20px;}/*!sc*/
+data-styled.g63[id="sc-iHbSHJ"]{content:"jJvHFQ,"}/*!sc*/
+.SbUMR{color:#d41f1c;font-size:0.9em;font-weight:normal;margin-left:20px;line-height:1;}/*!sc*/
+data-styled.g64[id="sc-klVQfs"]{content:"SbUMR,"}/*!sc*/
+.bJDmxm{border-radius:2px;background-color:rgba(104,104,207,0.05);color:rgba(50,50,159,0.9);margin:0 5px;padding:0 5px;border:1px solid rgba(50,50,159,0.1);}/*!sc*/
+.sc-jnOGJG + .sc-jnOGJG{margin-left:0;}/*!sc*/
+data-styled.g70[id="sc-jnOGJG"]{content:"bJDmxm,"}/*!sc*/
+.faldoo{margin:1em 0;}/*!sc*/
+.faldoo a{-webkit-text-decoration:auto;text-decoration:auto;color:#32329f;}/*!sc*/
+.faldoo a:visited{color:#32329f;}/*!sc*/
+.faldoo a:hover{color:#6868cf;-webkit-text-decoration:auto;text-decoration:auto;}/*!sc*/
+data-styled.g72[id="sc-eZkCL"]{content:"faldoo,"}/*!sc*/
+.erXvUb:after{content:' and ';font-weight:normal;}/*!sc*/
+.erXvUb:last-child:after{content:none;}/*!sc*/
+.erXvUb a{-webkit-text-decoration:auto;text-decoration:auto;color:#32329f;}/*!sc*/
+.erXvUb a:visited{color:#32329f;}/*!sc*/
+.erXvUb a:hover{color:#6868cf;-webkit-text-decoration:auto;text-decoration:auto;}/*!sc*/
+data-styled.g82[id="sc-jMakVo"]{content:"erXvUb,"}/*!sc*/
+.gczHQi{white-space:nowrap;}/*!sc*/
+.gczHQi:after{content:' or ';white-space:pre;}/*!sc*/
+.gczHQi:last-child:after,.gczHQi:only-child:after{content:none;}/*!sc*/
+.gczHQi a{-webkit-text-decoration:auto;text-decoration:auto;color:#32329f;}/*!sc*/
+.gczHQi a:visited{color:#32329f;}/*!sc*/
+.gczHQi a:hover{color:#6868cf;-webkit-text-decoration:auto;text-decoration:auto;}/*!sc*/
+data-styled.g83[id="sc-iMTnTL"]{content:"gczHQi,"}/*!sc*/
+.dHDGqr{-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;cursor:pointer;}/*!sc*/
+data-styled.g84[id="sc-krNlru"]{content:"dHDGqr,"}/*!sc*/
+.guuCvM{width:75%;text-overflow:ellipsis;border-radius:4px;overflow:hidden;}/*!sc*/
+@media screen and (max-width:50rem){.guuCvM{margin-top:10px;}}/*!sc*/
+data-styled.g85[id="sc-hwdzOV"]{content:"guuCvM,"}/*!sc*/
+.eylnow{display:inline-block;margin:0;}/*!sc*/
+data-styled.g86[id="sc-jaXxmE"]{content:"eylnow,"}/*!sc*/
+.iydxeB{width:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;margin:1em 0;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}/*!sc*/
+@media screen and (max-width:50rem){.iydxeB{-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}}/*!sc*/
+data-styled.g87[id="sc-ibQAlb"]{content:"iydxeB,"}/*!sc*/
+.crFmld{margin-top:0;margin-bottom:0.5em;}/*!sc*/
+data-styled.g93[id="sc-gmgFlS"]{content:"crFmld,"}/*!sc*/
+.iQWvAY{border:1px solid #32329f;color:#32329f;font-weight:normal;margin-left:0.5em;padding:4px 8px 4px;display:inline-block;-webkit-text-decoration:none;text-decoration:none;cursor:pointer;}/*!sc*/
+data-styled.g94[id="sc-kMkxaj"]{content:"iQWvAY,"}/*!sc*/
+.lfTFep::before{content:'|';display:inline-block;opacity:0.5;width:15px;text-align:center;}/*!sc*/
+.lfTFep:last-child::after{display:none;}/*!sc*/
+data-styled.g95[id="sc-fiCwlc"]{content:"lfTFep,"}/*!sc*/
+.bHyiRb{overflow:hidden;}/*!sc*/
+data-styled.g96[id="sc-jIGnZt"]{content:"bHyiRb,"}/*!sc*/
+.iSZHar{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-left:-15px;}/*!sc*/
+data-styled.g97[id="sc-fBdRDi"]{content:"iSZHar,"}/*!sc*/
+.kjICpR{width:9ex;display:inline-block;height:13px;line-height:13px;background-color:#333;border-radius:3px;background-repeat:no-repeat;background-position:6px 4px;font-size:7px;font-family:Verdana,sans-serif;color:white;text-transform:uppercase;text-align:center;font-weight:bold;vertical-align:middle;margin-right:6px;margin-top:2px;}/*!sc*/
+.kjICpR.get{background-color:#2F8132;}/*!sc*/
+.kjICpR.post{background-color:#186FAF;}/*!sc*/
+.kjICpR.put{background-color:#95507c;}/*!sc*/
+.kjICpR.options{background-color:#947014;}/*!sc*/
+.kjICpR.patch{background-color:#bf581d;}/*!sc*/
+.kjICpR.delete{background-color:#cc3333;}/*!sc*/
+.kjICpR.basic{background-color:#707070;}/*!sc*/
+.kjICpR.link{background-color:#07818F;}/*!sc*/
+.kjICpR.head{background-color:#A23DAD;}/*!sc*/
+.kjICpR.hook{background-color:#32329f;}/*!sc*/
+data-styled.g101[id="sc-kYxDKI"]{content:"kjICpR,"}/*!sc*/
+.bpycMf{margin:0;padding:0;}/*!sc*/
+.bpycMf:first-child{padding-bottom:32px;}/*!sc*/
+.sc-bpUBKd .sc-bpUBKd{font-size:0.929em;}/*!sc*/
+.eXvsLO{margin:0;padding:0;display:none;}/*!sc*/
+.eXvsLO:first-child{padding-bottom:32px;}/*!sc*/
+.sc-bpUBKd .sc-bpUBKd{font-size:0.929em;}/*!sc*/
+data-styled.g102[id="sc-bpUBKd"]{content:"bpycMf,eXvsLO,"}/*!sc*/
+.fbjDYy{list-style:none inside none;overflow:hidden;text-overflow:ellipsis;padding:0;}/*!sc*/
+data-styled.g103[id="sc-eyvILC"]{content:"fbjDYy,"}/*!sc*/
+.hlXHtc{cursor:pointer;color:#333333;margin:0;padding:12.5px 20px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;font-family:Montserrat,sans-serif;font-size:0.929em;text-transform:none;background-color:#fafafa;}/*!sc*/
+.hlXHtc:hover{color:#32329f;background-color:#e1e1e1;}/*!sc*/
+.hlXHtc .sc-cwHptR{height:1.5em;width:1.5em;}/*!sc*/
+.hlXHtc .sc-cwHptR polygon{fill:#333333;}/*!sc*/
+.ioZqbe{cursor:pointer;color:#333333;margin:0;padding:12.5px 20px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;font-family:Montserrat,sans-serif;background-color:#fafafa;}/*!sc*/
+.ioZqbe:hover{color:#32329f;background-color:#ededed;}/*!sc*/
+.ioZqbe .sc-cwHptR{height:1.5em;width:1.5em;}/*!sc*/
+.ioZqbe .sc-cwHptR polygon{fill:#333333;}/*!sc*/
+data-styled.g104[id="sc-gfoqjT"]{content:"hlXHtc,ioZqbe,"}/*!sc*/
+.jSTdPd{display:inline-block;vertical-align:middle;width:auto;overflow:hidden;text-overflow:ellipsis;}/*!sc*/
+.dlJfXA{display:inline-block;vertical-align:middle;width:calc(100% - 38px);overflow:hidden;text-overflow:ellipsis;}/*!sc*/
+data-styled.g105[id="sc-kbousE"]{content:"jSTdPd,dlJfXA,"}/*!sc*/
+.iSibdF{font-size:0.8em;margin-top:10px;text-align:center;position:fixed;width:260px;bottom:0;background:#fafafa;}/*!sc*/
+.iSibdF a,.iSibdF a:visited,.iSibdF a:hover{color:#333333 !important;padding:5px 0;border-top:1px solid #e1e1e1;-webkit-text-decoration:none;text-decoration:none;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}/*!sc*/
+.iSibdF img{width:15px;margin-right:5px;}/*!sc*/
+@media screen and (max-width:50rem){.iSibdF{width:100%;}}/*!sc*/
+data-styled.g106[id="sc-sLsrZ"]{content:"iSibdF,"}/*!sc*/
+.jQGZcv{cursor:pointer;position:relative;margin-bottom:5px;}/*!sc*/
+data-styled.g112[id="sc-iEXKAA"]{content:"jQGZcv,"}/*!sc*/
+.fVtHyw{font-family:Courier,monospace;margin-left:10px;-webkit-flex:1;-ms-flex:1;flex:1;overflow-x:hidden;text-overflow:ellipsis;}/*!sc*/
+data-styled.g113[id="sc-EgOXT"]{content:"fVtHyw,"}/*!sc*/
+.jtLmPa{outline:0;color:inherit;width:100%;text-align:left;cursor:pointer;padding:10px 30px 10px 20px;border-radius:4px 4px 0 0;background-color:#11171a;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;white-space:nowrap;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;border:1px solid transparent;border-bottom:0;-webkit-transition:border-color 0.25s ease;transition:border-color 0.25s ease;}/*!sc*/
+.jtLmPa ..sc-EgOXT{color:#ffffff;}/*!sc*/
+.jtLmPa:focus{box-shadow:inset 0 2px 2px rgba(0,0,0,0.45),0 2px 0 rgba(128,128,128,0.25);}/*!sc*/
+data-styled.g114[id="sc-eZYNyq"]{content:"jtLmPa,"}/*!sc*/
+.hJzVsN{font-size:0.929em;line-height:20px;background-color:#186FAF;color:#ffffff;padding:3px 10px;text-transform:uppercase;font-family:Montserrat,sans-serif;margin:0;}/*!sc*/
+data-styled.g115[id="sc-dlWCHZ"]{content:"hJzVsN,"}/*!sc*/
+.jKfuBO{position:absolute;width:100%;z-index:100;background:#fafafa;color:#263238;box-sizing:border-box;box-shadow:0px 0px 6px rgba(0,0,0,0.33);overflow:hidden;border-bottom-left-radius:4px;border-bottom-right-radius:4px;-webkit-transition:all 0.25s ease;transition:all 0.25s ease;visibility:hidden;-webkit-transform:translateY(-50%) scaleY(0);-ms-transform:translateY(-50%) scaleY(0);transform:translateY(-50%) scaleY(0);}/*!sc*/
+data-styled.g116[id="sc-hHOBiw"]{content:"jKfuBO,"}/*!sc*/
+.fTEywo{padding:10px;}/*!sc*/
+data-styled.g117[id="sc-kWtpeL"]{content:"fTEywo,"}/*!sc*/
+.kxVUfn{padding:5px;border:1px solid #ccc;background:#fff;word-break:break-all;color:#32329f;}/*!sc*/
+.kxVUfn > span{color:#333333;}/*!sc*/
+data-styled.g118[id="sc-ecPEgm"]{content:"kxVUfn,"}/*!sc*/
+.bzckyT{display:block;border:0;width:100%;text-align:left;padding:10px;border-radius:2px;margin-bottom:4px;line-height:1.5em;cursor:pointer;color:#1d8127;background-color:rgba(29,129,39,0.07);}/*!sc*/
+.bzckyT:focus{outline:auto #1d8127;}/*!sc*/
+.eQaxld{display:block;border:0;width:100%;text-align:left;padding:10px;border-radius:2px;margin-bottom:4px;line-height:1.5em;cursor:pointer;color:#d41f1c;background-color:rgba(212,31,28,0.07);}/*!sc*/
+.eQaxld:focus{outline:auto #d41f1c;}/*!sc*/
+data-styled.g119[id="sc-gdyeKB"]{content:"bzckyT,eQaxld,"}/*!sc*/
+.bpEYcE{vertical-align:top;}/*!sc*/
+data-styled.g123[id="sc-dSIIpw"]{content:"bpEYcE,"}/*!sc*/
+.egoxtT{font-size:1.3em;padding:0.2em 0;margin:3em 0 1.1em;color:#333333;font-weight:normal;}/*!sc*/
+data-styled.g124[id="sc-fMMURN"]{content:"egoxtT,"}/*!sc*/
+.iHNVTh{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:20px;height:20px;-webkit-align-self:center;-ms-flex-item-align:center;align-self:center;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;color:#32329f;}/*!sc*/
+data-styled.g130[id="sc-dPZUQH"]{content:"iHNVTh,"}/*!sc*/
+.dhHelK{width:260px;background-color:#fafafa;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-backface-visibility:hidden;backface-visibility:hidden;height:100vh;position:-webkit-sticky;position:sticky;position:-webkit-sticky;top:0;}/*!sc*/
+@media screen and (max-width:50rem){.dhHelK{position:fixed;z-index:20;width:100%;background:#fafafa;display:none;}}/*!sc*/
+@media print{.dhHelK{display:none;}}/*!sc*/
+data-styled.g131[id="sc-eBHhsj"]{content:"dhHelK,"}/*!sc*/
+.eSbAVe{outline:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-color:#f2f2f2;color:#32329f;display:none;cursor:pointer;position:fixed;right:20px;z-index:100;border-radius:50%;box-shadow:0 0 20px rgba(0,0,0,0.3);bottom:44px;width:60px;height:60px;padding:0 20px;}/*!sc*/
+@media screen and (max-width:50rem){.eSbAVe{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}}/*!sc*/
+.eSbAVe svg{color:#0065FB;}/*!sc*/
+@media print{.eSbAVe{display:none;}}/*!sc*/
+data-styled.g132[id="sc-iXzfSG"]{content:"eSbAVe,"}/*!sc*/
+.eJNCiX{font-family:Roboto,sans-serif;font-size:14px;font-weight:400;line-height:1.5em;color:#333333;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;position:relative;text-align:left;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;text-rendering:optimizeSpeed !important;tap-highlight-color:rgba(0,0,0,0);-webkit-text-size-adjust:100%;text-size-adjust:100%;}/*!sc*/
+.eJNCiX *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(255,255,255,0);}/*!sc*/
+data-styled.g133[id="sc-lnPyaJ"]{content:"eJNCiX,"}/*!sc*/
+.iEaKWZ{z-index:1;position:relative;overflow:hidden;width:calc(100% - 260px);contain:layout;}/*!sc*/
+@media print,screen and (max-width:50rem){.iEaKWZ{width:100%;}}/*!sc*/
+data-styled.g134[id="sc-eulNck"]{content:"iEaKWZ,"}/*!sc*/
+.gZbfaQ{background:#263238;position:absolute;top:0;bottom:0;right:0;width:calc((100% - 260px) * 0.4);}/*!sc*/
+@media print,screen and (max-width:75rem){.gZbfaQ{display:none;}}/*!sc*/
+data-styled.g135[id="sc-dExYaf"]{content:"gZbfaQ,"}/*!sc*/
+.cNIbYM{padding:5px 0;}/*!sc*/
+data-styled.g136[id="sc-iapWAC"]{content:"cNIbYM,"}/*!sc*/
+.eLSrIr{width:calc(100% - 40px);box-sizing:border-box;margin:0 20px;padding:5px 10px 5px 20px;border:0;border-bottom:1px solid #e1e1e1;font-family:Roboto,sans-serif;font-weight:bold;font-size:13px;color:#333333;background-color:transparent;outline:none;}/*!sc*/
+data-styled.g137[id="sc-kqGoIF"]{content:"eLSrIr,"}/*!sc*/
+.eajCCh{position:absolute;left:20px;height:1.8em;width:0.9em;}/*!sc*/
+.eajCCh path{fill:#333333;}/*!sc*/
+data-styled.g138[id="sc-dxcDKg"]{content:"eajCCh,"}/*!sc*/
+</style>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+</head>
+
+<body>
+  
+      <div id="redoc"><div class="sc-lnPyaJ eJNCiX redoc-wrap"><div class="sc-eBHhsj dhHelK menu-content" style="top:0px;height:calc(100vh - 0px)"><div role="search" class="sc-iapWAC cNIbYM"><svg class="sc-dxcDKg eajCCh search-icon" version="1.1" viewBox="0 0 1000 1000" x="0px" xmlns="http://www.w3.org/2000/svg" y="0px"><path d="M968.2,849.4L667.3,549c83.9-136.5,66.7-317.4-51.7-435.6C477.1-25,252.5-25,113.9,113.4c-138.5,138.3-138.5,362.6,0,501C219.2,730.1,413.2,743,547.6,666.5l301.9,301.4c43.6,43.6,76.9,14.9,104.2-12.4C981,928.3,1011.8,893,968.2,849.4z M524.5,522c-88.9,88.7-233,88.7-321.8,0c-88.9-88.7-88.9-232.6,0-321.3c88.9-88.7,233-88.7,321.8,0C613.4,289.4,613.4,433.3,524.5,522z"></path></svg><input type="text" value="" placeholder="Search..." aria-label="Search" class="sc-kqGoIF eLSrIr search-input"/></div><div class="sc-kOHTFB IVbWU scrollbar-container undefined"><ul class="sc-bpUBKd bpycMf" role="menu"><li data-item-id="section/Introduction" class="sc-eyvILC fbjDYy"><label type="section" role="menuitem" class="sc-gfoqjT hlXHtc -depth1"><span title="Introduction" class="sc-kbousE jSTdPd">Introduction</span></label></li><li data-item-id="section/Relevant-terms-and-definitions" class="sc-eyvILC fbjDYy"><label type="section" role="menuitem" class="sc-gfoqjT hlXHtc -depth1"><span title="Relevant terms and definitions" class="sc-kbousE jSTdPd">Relevant terms and definitions</span></label></li><li data-item-id="section/API-Functionality" class="sc-eyvILC fbjDYy"><label type="section" role="menuitem" class="sc-gfoqjT hlXHtc -depth1"><span title="API Functionality" class="sc-kbousE jSTdPd">API Functionality</span></label></li><li data-item-id="section/Further-info-and-support" class="sc-eyvILC fbjDYy"><label type="section" role="menuitem" class="sc-gfoqjT hlXHtc -depth1"><span title="Further info and support" class="sc-kbousE jSTdPd">Further info and support</span></label></li><li data-item-id="tag/Location-verification" class="sc-eyvILC fbjDYy"><label type="tag" role="menuitem" class="sc-gfoqjT hlXHtc -depth1"><span title="Location verification" class="sc-kbousE jSTdPd">Location verification</span><svg class="sc-cwHptR kZTEzX" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></label><ul class="sc-bpUBKd eXvsLO"><li data-item-id="tag/Location-verification/operation/verifyLocation" class="sc-eyvILC fbjDYy"><label role="menuitem" class="sc-gfoqjT ioZqbe -depth2"><span type="post" class="sc-kYxDKI kjICpR operation-type post">post</span><span width="calc(100% - 38px)" class="sc-kbousE dlJfXA">Execute location verification for a user equipment</span></label></li></ul></li></ul><div class="sc-sLsrZ iSibdF"><a target="_blank" rel="noopener noreferrer" href="https://redocly.com/redoc/">API docs by Redocly</a></div></div></div><div class="sc-iXzfSG eSbAVe"><div class="sc-dPZUQH iHNVTh"><svg class="" style="transform:translate(2px, -4px) rotate(180deg);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15"><g transform="translate(904.92214,-879.1482)"><path d="
+          m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,
+          -55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,
+          0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,
+          -174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,
+          -174.68583 0.6895,0 26.281,25.03215 56.8701,
+          55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864
+          -231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,
+          -104.0616 -231.873,-231.248 z
+        " fill="currentColor"></path></g></svg><svg class="" style="transform:translate(2px, 4px);transition:transform 0.2s ease" viewBox="0 0 926.23699 573.74994" version="1.1" x="0px" y="0px" width="15" height="15"><g transform="translate(904.92214,-879.1482)"><path d="
+          m -673.67664,1221.6502 -231.2455,-231.24803 55.6165,
+          -55.627 c 30.5891,-30.59485 56.1806,-55.627 56.8701,-55.627 0.6894,
+          0 79.8637,78.60862 175.9427,174.68583 l 174.6892,174.6858 174.6892,
+          -174.6858 c 96.079,-96.07721 175.253196,-174.68583 175.942696,
+          -174.68583 0.6895,0 26.281,25.03215 56.8701,
+          55.627 l 55.6165,55.627 -231.245496,231.24803 c -127.185,127.1864
+          -231.5279,231.248 -231.873,231.248 -0.3451,0 -104.688,
+          -104.0616 -231.873,-231.248 z
+        " fill="currentColor"></path></g></svg></div></div><div class="sc-eulNck iEaKWZ api-content"><div class="sc-dcJsrY bBkGhy"><div class="sc-kAyceB hBQWIZ"><div class="sc-fqkvVR oJKYx api-info"><h1 class="sc-imWYAI sc-gmgFlS cILgPb crFmld">Device location verification API<!-- --> <span>(<!-- -->0.2.0-wip<!-- -->)</span></h1><p>Download OpenAPI specification<!-- -->:<a download="openapi.json" target="_blank" class="sc-kMkxaj iQWvAY">Download</a></p><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO"><div class="sc-jIGnZt bHyiRb"><div class="sc-fBdRDi iSZHar"><span class="sc-fiCwlc lfTFep">E-mail<!-- -->:<!-- --> <a href="mailto:project-email@sample.com">project-email@sample.com</a></span> <!-- --> <span class="sc-fiCwlc lfTFep">License:<!-- --> <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a></span> <span class="sc-fiCwlc lfTFep"><a href="http://swagger.io/terms/">Terms of Service</a></span></div></div></div><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO" data-role="redoc-summary"></div><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO" data-role="redoc-description"><p>This API provides the customer with the ability to verify the location of a device. </p>
+</div><div class="sc-eZkCL faldoo"><a href="https://github.com/camaraproject/">Product documentation at CAMARA</a></div></div></div></div><div id="section/Introduction" data-section-id="section/Introduction" class="sc-dcJsrY bBkGhy"><div class="sc-kAyceB hBQWIZ"><div class="sc-fqkvVR oJKYx"><h1 class="sc-imWYAI cILgPb"><a class="sc-jlZhew kbdRLs" href="#section/Introduction" aria-label="section/Introduction"></a>Introduction</h1></div></div><div class="sc-fqkvVR diIqQJ"><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO redoc-markdown "><p>Customers are able to verify whether the location of certain user device is within the area specified. Currently the only area supported is a circle determined by the provided coordinates (latitude and longitude) and some expected accuracy (radius).</p>
+<p>The verification result depends on the network&#39;s ability and accuracy to locate the device at the requested area. </p>
+<ul>
+<li>The network locates the device within the requested area, the verification result is <code>TRUE</code>.</li>
+<li>The requested area may not match the area where the network locates the device. In this case, the verification result is <code>FALSE</code> . </li>
+<li>The requested area partially match the area where the network locates the device, the verification result is <code>PARTIAL</code>. In this case, a <code>match_rate</code> could be included in the response, indicating an estimation of the likelihood of the match in percent.</li>
+<li>Lastly, the network may not be able to locate the device. In this case, the verification result is <code>UNKNOWN</code></li>
+</ul>
+<p>Location Verification could be useful in scenarios such as:</p>
+<ul>
+<li>Fraud protection to ensure a given user is located in the region, country or location claimed for financial transactions</li>
+<li>Verify the GPS coordinates reported by the app on a device to ensure the GPS was not faked e.g. for content delivery with regional restrictions</li>
+<li>Location-based advertising: trigger targeted advertising after verifying the user is in the area of interest</li>
+<li>Smart Mobility (Vehicle/bikes renting): confirm the location of the device and the location of the vehicle/bike to guarantee they are rented correctly</li>
+</ul>
+</div></div></div><div id="section/Relevant-terms-and-definitions" data-section-id="section/Relevant-terms-and-definitions" class="sc-dcJsrY bBkGhy"><div class="sc-kAyceB hBQWIZ"><div class="sc-fqkvVR oJKYx"><h1 class="sc-imWYAI cILgPb"><a class="sc-jlZhew kbdRLs" href="#section/Relevant-terms-and-definitions" aria-label="section/Relevant-terms-and-definitions"></a>Relevant terms and definitions</h1></div></div><div class="sc-fqkvVR diIqQJ"><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO redoc-markdown "><ul>
+<li><p><strong>Device</strong>: A device refers to any physical entity that can connect to a network and participate in network communication.</p>
+</li>
+<li><p><strong>Area</strong>: It specifies the geographical surface where a device may be physically located.</p>
+</li>
+<li><p><strong>Verification</strong>: Process triggered in the API server to confirm or contradict the expectation assumed by the API client about the device location.</p>
+</li>
+</ul>
+</div></div></div><div id="section/API-Functionality" data-section-id="section/API-Functionality" class="sc-dcJsrY bBkGhy"><div class="sc-kAyceB hBQWIZ"><div class="sc-fqkvVR oJKYx"><h1 class="sc-imWYAI cILgPb"><a class="sc-jlZhew kbdRLs" href="#section/API-Functionality" aria-label="section/API-Functionality"></a>API Functionality</h1></div></div><div class="sc-fqkvVR diIqQJ"><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO redoc-markdown "><p>The API exposes a single endpoint/operation:</p>
+<ul>
+<li>Retrieve whether the device location is within a requested area, currently circle with center specified by the latitude and longitude, and radius specified by the accuracy. The operation returns a verification result and, optionally, a match rate estimation for the location verification in percent.</li>
+</ul>
+</div></div></div><div id="section/Further-info-and-support" data-section-id="section/Further-info-and-support" class="sc-dcJsrY bBkGhy"><div class="sc-kAyceB hBQWIZ"><div class="sc-fqkvVR oJKYx"><h1 class="sc-imWYAI cILgPb"><a class="sc-jlZhew kbdRLs" href="#section/Further-info-and-support" aria-label="section/Further-info-and-support"></a>Further info and support</h1></div></div><div class="sc-fqkvVR diIqQJ"><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO redoc-markdown "><p>(FAQs will be added in a later version of the documentation)</p>
+</div></div></div><div id="tag/Location-verification" data-section-id="tag/Location-verification" class="sc-dcJsrY bBkGhy"><div class="sc-kAyceB hBQWIZ"><div class="sc-fqkvVR oJKYx"><h1 class="sc-imWYAI cILgPb"><a class="sc-jlZhew kbdRLs" href="#tag/Location-verification" aria-label="tag/Location-verification"></a>Location verification</h1></div></div></div><div id="tag/Location-verification/operation/verifyLocation" data-section-id="tag/Location-verification/operation/verifyLocation" class="sc-dcJsrY cqVkUp"><div data-section-id="operation/verifyLocation" id="operation/verifyLocation" class="sc-kAyceB hBQWIZ"><div class="sc-fqkvVR oJKYx"><h2 class="sc-jXbUNg fWnwAh"><a class="sc-jlZhew kbdRLs" href="#tag/Location-verification/operation/verifyLocation" aria-label="tag/Location-verification/operation/verifyLocation"></a>Execute location verification for a user equipment<!-- --> </h2><div class="sc-ibQAlb iydxeB"><div class="sc-krNlru dHDGqr"><h5 class="sc-dAlyuH sc-jaXxmE jbQuod eylnow">Authorizations:</h5><svg class="sc-cwHptR iZRiKW" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></div><div class="sc-hwdzOV guuCvM"><span class="sc-iMTnTL gczHQi"><span class="sc-jMakVo erXvUb"><i>oAuth2ClientCredentials</i></span></span><span class="sc-iMTnTL gczHQi"><span class="sc-jMakVo erXvUb"><i>three_legged</i></span></span></div></div><h5 class="sc-dAlyuH jbQuod">Request Body schema: <span class="sc-eBMEME cPThXn">application/json</span></h5><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO"></div><table class="sc-dAbbOL ccPhmY"><tbody><tr class=""><td class="sc-dLMFU sc-eldPxv sc-Nxspf hZbWKe jXkfaY gQgOVd" kind="field" title="device"><span class="sc-gFqAkR eRqgPI"></span><button aria-label="expand properties"><span class="property-name">device</span><svg class="sc-cwHptR ivsSRP" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div class="sc-iHbSHJ sc-klVQfs jJvHFQ SbUMR">required</div></td><td class="sc-fPXMVe bAXEAa"><div><div><span class="sc-cfxfcM sc-gFAWRd ecSUzn bbMYmV"></span><span class="sc-cfxfcM sc-gmPhUn ecSUzn hUewpb">object</span><span class="sc-cfxfcM sc-hRJfrW ecSUzn jYwVIK"> (<!-- -->Device<!-- -->) </span><span> <span class="sc-cfxfcM sc-jnOGJG ecSUzn bJDmxm"> <!-- -->non-empty<!-- --> </span></span></div> <div><div class="sc-eeDRCY sc-dCFHLb gTGgei dwkgVY"><p>One or more parameters allocated to the device that allow it to be identified</p>
+</div></div></div></td></tr><tr class=""><td class="sc-dLMFU sc-eldPxv sc-Nxspf hZbWKe jXkfaY gQgOVd" kind="field" title="area"><span class="sc-gFqAkR eRqgPI"></span><button aria-label="expand properties"><span class="property-name">area</span><svg class="sc-cwHptR ivsSRP" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div class="sc-iHbSHJ sc-klVQfs jJvHFQ SbUMR">required</div></td><td class="sc-fPXMVe bAXEAa"><div><div><span class="sc-cfxfcM sc-gFAWRd ecSUzn bbMYmV"></span><span class="sc-cfxfcM sc-gmPhUn ecSUzn hUewpb">object</span><span class="sc-cfxfcM sc-hRJfrW ecSUzn jYwVIK"> (<!-- -->Area<!-- -->) </span></div> <div><div class="sc-eeDRCY sc-dCFHLb gTGgei dwkgVY"></div></div></div></td></tr><tr class="last "><td class="sc-dLMFU sc-eldPxv hZbWKe jXkfaY" kind="field" title="maxAge"><span class="sc-gFqAkR eRqgPI"></span><span class="property-name">maxAge</span></td><td class="sc-fPXMVe bAXEAa"><div><div><span class="sc-cfxfcM sc-gFAWRd ecSUzn bbMYmV"></span><span class="sc-cfxfcM sc-gmPhUn ecSUzn hUewpb">number</span><span class="sc-cfxfcM sc-gmPhUn ecSUzn hUewpb"> <!-- -->&lt;<!-- -->integer<!-- -->&gt;<!-- --> </span><span class="sc-cfxfcM sc-hRJfrW ecSUzn jYwVIK"> (<!-- -->MaxAge<!-- -->) </span><span> <span class="sc-cfxfcM sc-jnOGJG ecSUzn bJDmxm"> <!-- -->&gt;= 60<!-- --> </span></span></div> <div><div class="sc-eeDRCY sc-dCFHLb gTGgei dwkgVY"><p>The maximum age (in seconds) of the available location, which is accepted for the verification.</p>
+</div></div></div></td></tr></tbody></table><div><h3 class="sc-fMMURN egoxtT">Responses</h3><div><button class="sc-gdyeKB bzckyT"><svg class="sc-cwHptR hWEnWx" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-dSIIpw bpEYcE">200<!-- --> </strong><span class="sc-fhzFiK gducij"><p>Location verification result</p>
+</span></button></div><div><button class="sc-gdyeKB eQaxld"><svg class="sc-cwHptR cSkZlF" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-dSIIpw bpEYcE">400<!-- --> </strong><span class="sc-fhzFiK gducij"><p>Invalid input</p>
+</span></button></div><div><button class="sc-gdyeKB eQaxld"><svg class="sc-cwHptR cSkZlF" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-dSIIpw bpEYcE">401<!-- --> </strong><span class="sc-fhzFiK gducij"><p>Unauthorized</p>
+</span></button></div><div><button class="sc-gdyeKB eQaxld"><svg class="sc-cwHptR cSkZlF" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-dSIIpw bpEYcE">403<!-- --> </strong><span class="sc-fhzFiK gducij"><p>Forbidden</p>
+</span></button></div><div><button class="sc-gdyeKB eQaxld"><svg class="sc-cwHptR cSkZlF" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-dSIIpw bpEYcE">404<!-- --> </strong><span class="sc-fhzFiK gducij"><p>Not found</p>
+</span></button></div><div><button class="sc-gdyeKB eQaxld"><svg class="sc-cwHptR cSkZlF" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-dSIIpw bpEYcE">500<!-- --> </strong><span class="sc-fhzFiK gducij"><p>Internal server error</p>
+</span></button></div><div><button class="sc-gdyeKB eQaxld"><svg class="sc-cwHptR cSkZlF" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg><strong class="sc-dSIIpw bpEYcE">503<!-- --> </strong><span class="sc-fhzFiK gducij"><p>Service unavailable</p>
+</span></button></div></div></div><div class="sc-iGgWBj sc-gsFSXq ibAZSi eDeKjd"><div class="sc-iEXKAA jQGZcv"><button class="sc-eZYNyq jtLmPa"><span type="post" class="sc-dlWCHZ hJzVsN http-verb post">post</span><span class="sc-EgOXT fVtHyw">/verifications</span><svg class="sc-cwHptR iVFMLx" style="margin-right:-25px" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button><div aria-hidden="true" class="sc-hHOBiw jKfuBO"><div class="sc-kWtpeL fTEywo"><div class="sc-eeDRCY sc-dCFHLb gTGgei dwkgVY"></div><div tabindex="0" role="button"><div class="sc-ecPEgm kxVUfn"><span>/{apiRoot}/{basePath}</span>/verifications</div></div></div></div></div><div><h3 class="sc-kpDqfm eBBgSB"> <!-- -->Request samples<!-- --> </h3><div class="sc-bXCLTC dHowgL" data-rttabs="true"><ul class="react-tabs__tab-list" role="tablist"><li class="react-tabs__tab react-tabs__tab--selected" role="tab" id="react-tabs-0" aria-selected="true" aria-disabled="false" aria-controls="react-tabs-1" tabindex="0" data-rttab="true">Payload</li></ul><div class="react-tabs__tab-panel react-tabs__tab-panel--selected" role="tabpanel" id="react-tabs-1" aria-labelledby="react-tabs-0"><div><div class="sc-fBWQRz hEqesG"><span class="sc-bbSZdi hzinCC">Content type</span><div class="sc-fjvvzt dMqZRk">application/json</div></div><div class="sc-hCPjZK gKuDgt"><div class="sc-fXSgeo HQFTv"><div class="sc-koXPp efufqz"><button><div class="sc-jxOSlx ebiVIa">Copy</div></button><button> Expand all </button><button> Collapse all </button></div><div class="sc-eeDRCY gTGgei sc-JrDLc hMzemk"><div class="redoc-json"><code><button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable "><span class="property token string">"device"</span>: <button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"phoneNumber"</span>: <span class="token string">&quot;123456789&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"networkAccessIdentifier"</span>: <span class="token string">&quot;123456789@domain.com&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"ipv4Address"</span>: <button class="collapser" aria-label="expand"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"publicAddress"</span>: <span class="token string">&quot;84.125.93.10&quot;</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"publicPort"</span>: <span class="token number">59765</span></div></li></ul><span class="token punctuation">}</span><span class="token punctuation">,</span></div></li><li><div class="hoverable collapsed"><span class="property token string">"ipv6Address"</span>: <span class="token string">&quot;2001:db8:85a3:8d3:1319:8a2e:370:7344&quot;</span></div></li></ul><span class="token punctuation">}</span><span class="token punctuation">,</span></div></li><li><div class="hoverable "><span class="property token string">"area"</span>: <button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable collapsed"><span class="property token string">"areaType"</span>: <span class="token string">&quot;string&quot;</span></div></li></ul><span class="token punctuation">}</span><span class="token punctuation">,</span></div></li><li><div class="hoverable "><span class="property token string">"maxAge"</span>: <span class="token number">120</span></div></li></ul><span class="token punctuation">}</span></code></div></div></div></div></div></div></div></div><div><h3 class="sc-kpDqfm eBBgSB"> <!-- -->Response samples<!-- --> </h3><div class="sc-bXCLTC dHowgL" data-rttabs="true"><ul class="react-tabs__tab-list" role="tablist"><li class="tab-success react-tabs__tab--selected" role="tab" id="react-tabs-2" aria-selected="true" aria-disabled="false" aria-controls="react-tabs-3" tabindex="0" data-rttab="true">200</li><li class="tab-error" role="tab" id="react-tabs-4" aria-selected="false" aria-disabled="false" aria-controls="react-tabs-5" data-rttab="true">400</li><li class="tab-error" role="tab" id="react-tabs-6" aria-selected="false" aria-disabled="false" aria-controls="react-tabs-7" data-rttab="true">401</li><li class="tab-error" role="tab" id="react-tabs-8" aria-selected="false" aria-disabled="false" aria-controls="react-tabs-9" data-rttab="true">403</li><li class="tab-error" role="tab" id="react-tabs-10" aria-selected="false" aria-disabled="false" aria-controls="react-tabs-11" data-rttab="true">404</li><li class="tab-error" role="tab" id="react-tabs-12" aria-selected="false" aria-disabled="false" aria-controls="react-tabs-13" data-rttab="true">500</li><li class="tab-error" role="tab" id="react-tabs-14" aria-selected="false" aria-disabled="false" aria-controls="react-tabs-15" data-rttab="true">503</li></ul><div class="react-tabs__tab-panel react-tabs__tab-panel--selected" role="tabpanel" id="react-tabs-3" aria-labelledby="react-tabs-2"><div><div class="sc-fBWQRz hEqesG"><span class="sc-bbSZdi hzinCC">Content type</span><div class="sc-fjvvzt dMqZRk">application/json</div></div><div class="sc-hCPjZK gKuDgt"><div class="sc-fBWQRz hEqesG"><span class="sc-bbSZdi hzinCC">Example</span><div class="sc-kOPcWz sc-hknOHE jAtzSo bhOzdY"><svg class="sc-dtInlm eUMxuS" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg><select class="dropdown-select"><option selected="" value="Match">Match</option><option value="No match">No match</option><option value="Unknown">Unknown</option><option value="Partial match">Partial match</option></select><label>Match</label></div></div><div><div class="sc-eeDRCY sc-dCFHLb gTGgei dJWFsO"><p>The network locates the device within the requested area</p>
+</div><div class="sc-fXSgeo HQFTv"><div class="sc-koXPp efufqz"><button><div class="sc-jxOSlx ebiVIa">Copy</div></button></div><div class="sc-eeDRCY gTGgei sc-JrDLc hMzemk"><div class="redoc-json"><code><button class="collapser" aria-label="collapse"></button><span class="token punctuation">{</span><span class="ellipsis"></span><ul class="obj collapsible"><li><div class="hoverable "><span class="property token string">"verificationResult"</span>: <span class="token string">&quot;TRUE&quot;</span></div></li></ul><span class="token punctuation">}</span></code></div></div></div></div></div></div></div><div class="react-tabs__tab-panel" role="tabpanel" id="react-tabs-5" aria-labelledby="react-tabs-4"></div><div class="react-tabs__tab-panel" role="tabpanel" id="react-tabs-7" aria-labelledby="react-tabs-6"></div><div class="react-tabs__tab-panel" role="tabpanel" id="react-tabs-9" aria-labelledby="react-tabs-8"></div><div class="react-tabs__tab-panel" role="tabpanel" id="react-tabs-11" aria-labelledby="react-tabs-10"></div><div class="react-tabs__tab-panel" role="tabpanel" id="react-tabs-13" aria-labelledby="react-tabs-12"></div><div class="react-tabs__tab-panel" role="tabpanel" id="react-tabs-15" aria-labelledby="react-tabs-14"></div></div></div></div></div></div></div><div class="sc-dExYaf gZbfaQ"></div></div></div>
+      <script>
+      const __redoc_state = {"menu":{"activeItemIdx":-1},"spec":{"data":{"openapi":"3.0.3","info":{"title":"Device location verification API","description":"This API provides the customer with the ability to verify the location of a device. \n\n# Introduction\n\nCustomers are able to verify whether the location of certain user device is within the area specified. Currently the only area supported is a circle determined by the provided coordinates (latitude and longitude) and some expected accuracy (radius).\n\nThe verification result depends on the network's ability and accuracy to locate the device at the requested area. \n\n* The network locates the device within the requested area, the verification result is `TRUE`.\n* The requested area may not match the area where the network locates the device. In this case, the verification result is `FALSE` . \n* The requested area partially match the area where the network locates the device, the verification result is `PARTIAL`. In this case, a `match_rate` could be included in the response, indicating an estimation of the likelihood of the match in percent.\n* Lastly, the network may not be able to locate the device. In this case, the verification result is `UNKNOWN`\n\nLocation Verification could be useful in scenarios such as:\n\n- Fraud protection to ensure a given user is located in the region, country or location claimed for financial transactions\n- Verify the GPS coordinates reported by the app on a device to ensure the GPS was not faked e.g. for content delivery with regional restrictions\n- Location-based advertising: trigger targeted advertising after verifying the user is in the area of interest\n- Smart Mobility (Vehicle/bikes renting): confirm the location of the device and the location of the vehicle/bike to guarantee they are rented correctly\n\n# Relevant terms and definitions\n\n* **Device**: A device refers to any physical entity that can connect to a network and participate in network communication.\n\n* **Area**: It specifies the geographical surface where a device may be physically located.\n\n* **Verification**: Process triggered in the API server to confirm or contradict the expectation assumed by the API client about the device location.\n\n# API Functionality\n\nThe API exposes a single endpoint/operation:\n\n- Retrieve whether the device location is within a requested area, currently circle with center specified by the latitude and longitude, and radius specified by the accuracy. The operation returns a verification result and, optionally, a match rate estimation for the location verification in percent.\n\n# Further info and support\n\n(FAQs will be added in a later version of the documentation)    \n","termsOfService":"http://swagger.io/terms/","contact":{"email":"project-email@sample.com"},"license":{"name":"Apache 2.0","url":"https://www.apache.org/licenses/LICENSE-2.0.html"},"version":"0.2.0-wip"},"externalDocs":{"description":"Product documentation at CAMARA","url":"https://github.com/camaraproject/"},"security":[{"oAuth2ClientCredentials":[]},{"three_legged":["location-verification-read"]}],"servers":[{"url":"{apiRoot}/{basePath}","variables":{"apiRoot":{"default":"http://localhost:9091","description":"API root"},"basePath":{"default":"location-verification/v0","description":"Base path for the device location verification API"}}}],"paths":{"/verifications":{"post":{"tags":["Location verification"],"summary":"Execute location verification for a user equipment","operationId":"verifyLocation","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/VerifyLocationRequest"}}},"required":true},"responses":{"200":{"description":"Location verification result","content":{"application/json":{"schema":{"$ref":"#/components/schemas/VerifyLocationResponse"},"examples":{"True":{"summary":"Match","description":"The network locates the device within the requested area","value":{"verificationResult":"TRUE"}},"False":{"summary":"No match","description":"The requested area does not match the area where the network locates the device","value":{"verificationResult":"FALSE"}},"Unknown":{"summary":"Unknown","description":"The network cannot locate the device","value":{"verificationResult":"UNKNOWN"}},"Partial":{"summary":"Partial match","description":"The requested area partially match the area where the network locates the device","value":{"verificationResult":"PARTIAL","matchRate":74}}}}}},"400":{"$ref":"#/components/responses/Generic400"},"401":{"$ref":"#/components/responses/Generic401"},"403":{"$ref":"#/components/responses/Generic403"},"404":{"$ref":"#/components/responses/Generic404"},"500":{"$ref":"#/components/responses/Generic500"},"503":{"$ref":"#/components/responses/Generic503"}}}}},"components":{"securitySchemes":{"oAuth2ClientCredentials":{"type":"oauth2","flows":{"clientCredentials":{"tokenUrl":"{tokenUrl}","scopes":{}}}},"three_legged":{"type":"oauth2","flows":{"authorizationCode":{"authorizationUrl":"https://auth.example.com/authorize","tokenUrl":"https://auth.example.com/token","scopes":{"location-verification-read":"Read device location verification"}}}}},"schemas":{"Area":{"properties":{"areaType":{"type":"string","description":"Type of this area."}},"required":["areaType"],"discriminator":{"propertyName":"areaType","mapping":{"Circle":"#/components/schemas/Circle"}}},"Circle":{"description":"Circular area","allOf":[{"$ref":"#/components/schemas/Area"},{"type":"object","properties":{"center":{"$ref":"#/components/schemas/Point"},"radius":{"type":"integer","description":"Expected accuracy for the verification in meters, from location (radius)","minimum":2000,"maximum":200000}},"required":["center","radius"]}],"example":{"areaType":"Circle","center":{"latitude":50.735851,"longitude":7.10066},"accuracy":50000}},"Point":{"type":"object","description":"Coordinates (latitude, longitude) defining a location in a map","required":["latitude","longitude"],"properties":{"latitude":{"$ref":"#/components/schemas/Latitude"},"longitude":{"$ref":"#/components/schemas/Longitude"}},"example":{"latitude":50.735851,"longitude":7.10066}},"Latitude":{"description":"Latitude component of a location","type":"number","format":"double","minimum":-90,"maximum":90,"example":50.735851},"Longitude":{"description":"Longitude component of location","type":"number","format":"double","minimum":-180,"maximum":180,"example":7.10066},"VerifyLocationRequest":{"type":"object","properties":{"device":{"$ref":"#/components/schemas/Device"},"area":{"$ref":"#/components/schemas/Area"},"maxAge":{"$ref":"#/components/schemas/MaxAge"}},"required":["device","area"]},"VerifyLocationResponse":{"type":"object","required":["verificationResult","lastLocationTime"],"properties":{"lastLocationTime":{"$ref":"#/components/schemas/LastLocationTime"},"verificationResult":{"$ref":"#/components/schemas/VerificationResult"},"matchRate":{"$ref":"#/components/schemas/MatchRate"}}},"Device":{"type":"object","minProperties":1,"properties":{"phoneNumber":{"$ref":"#/components/schemas/PhoneNumber"},"networkAccessIdentifier":{"$ref":"#/components/schemas/NetworkAccessIdentifier"},"ipv4Address":{"$ref":"#/components/schemas/DeviceIpv4Addr"},"ipv6Address":{"$ref":"#/components/schemas/Ipv6Address"}},"description":"One or more parameters allocated to the device that allow it to be identified"},"PhoneNumber":{"type":"string","pattern":"^\\+?[0-9]{5,15}$","example":"123456789","description":"Subscriber number (MSISDN) in E.164 format, starting with country code and optionally prefixed with '+'."},"NetworkAccessIdentifier":{"type":"string","example":"123456789@domain.com"},"DeviceIpv4Addr":{"type":"object","properties":{"publicAddress":{"$ref":"#/components/schemas/SingleIpv4Addr"},"privateAddress":{"$ref":"#/components/schemas/SingleIpv4Addr"},"publicPort":{"$ref":"#/components/schemas/Port"}},"anyOf":[{"required":["publicAddress","privateAddress"]},{"required":["publicAddress","publicPort"]}],"example":{"publicAddress":"84.125.93.10","publicPort":59765},"description":"The device should be identified by either the public (observed) IP address and port as seen by the application server, or the private (local) and any public (observed) IP addresses in use by the device (this information can be obtained by various means, for example from some DNS servers).\n\nIf the allocated and observed IP addresses are the same (i.e. NAT is not in use) then  the same address should be specified for both publicAddress and privateAddress.\n\nIf NAT64 is in use, the device should be identified by its publicAddress and publicPort, or separately by its allocated IPv6 address (field ipv6Address of the Device object)\n\nIn all cases, publicAddress must be specified, along with at least one of either privateAddress or publicPort, dependent upon which is known. In general, mobile devices cannot be identified by their public IPv4 address alone.\n"},"SingleIpv4Addr":{"type":"string","description":"A single IPv4 address with no subnet mask","example":"84.125.93.10","pattern":"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$"},"Port":{"type":"integer","minimum":0,"maximum":65535},"Ipv6Address":{"type":"string","allOf":[{"pattern":"^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9a-f]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))(\\/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))?$"},{"pattern":"^((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))(\\/.+)?$"}],"example":"2001:db8:85a3:8d3:1319:8a2e:370:7344","description":"IPv6 address, following IETF 5952 format, may be specified in form <address/mask> as:\n  - address - The /128 subnet is optional for single addresses:\n    - 2001:db8:85a3:8d3:1319:8a2e:370:7344\n    - 2001:db8:85a3:8d3:1319:8a2e:370:7344/128\n  - address/mask - an IP v6 number with a mask:\n    - 2001:db8:85a3:8d3::0/64\n    - 2001:db8:85a3:8d3::/64\n"},"MaxAge":{"description":"The maximum age (in seconds) of the available location, which is accepted for the verification.","type":"number","format":"integer","minimum":60,"example":120},"VerificationResult":{"description":"Result of a verification request:\n  - `TRUE`: when the network locates the device within the requested area, \n  - `FALSE`: when the requested area does not match the area where the network locates the device,\n  - `UNKNOWN`: when the network cannot locate the device,\n  - `PARTIAL`: when the requested area partially match the area where the network locates the device. A `match_rate` could be included in the response.\n","type":"string","enum":["TRUE","FALSE","UNKNOWN","PARTIAL"]},"MatchRate":{"description":"Match rate estimation for the location verification in percent","type":"integer","minimum":1,"maximum":99},"LastLocationTime":{"description":"Timestamp of the last location information","example":"2023-09-07T10:40:52Z","format":"date-time","type":"string"},"ErrorInfo":{"type":"object","required":["status","code","message"],"properties":{"status":{"type":"integer","description":"HTTP status code returned along with this error response"},"code":{"type":"string","description":"Code given to this error"},"message":{"type":"string","description":"Detailed error description"}}}},"responses":{"Generic400":{"description":"Invalid input","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ErrorInfo"},"example":{"status":400,"code":"INVALID_ARGUMENT","message":"Invalid input"}}}},"Generic401":{"description":"Unauthorized","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ErrorInfo"},"example":{"status":401,"code":"UNAUTHENTICATED","message":"Authorization failed: ..."}}}},"Generic403":{"description":"Forbidden","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ErrorInfo"},"example":{"status":403,"code":"PERMISSION_DENIED","message":"Operation not allowed: ..."}}}},"Generic404":{"description":"Not found","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ErrorInfo"},"example":{"status":404,"code":"NOT_FOUND","message":"The specified resource is not found"}}}},"Generic500":{"description":"Internal server error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ErrorInfo"},"example":{"status":500,"code":"INTERNAL","message":"Internal server error"}}}},"Generic503":{"description":"Service unavailable","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ErrorInfo"},"example":{"status":503,"code":"UNAVAILABLE","message":"Service unavailable"}}}}}}}},"searchIndex":{"store":["section/Introduction","section/Relevant-terms-and-definitions","section/API-Functionality","section/Further-info-and-support","tag/Location-verification","tag/Location-verification/operation/verifyLocation"],"index":{"version":"2.3.9","fields":["title","description"],"fieldVectors":[["title/0",[0,2.07]],["description/0",[1,0.693,2,1.475,3,0.463,4,0.392,5,0.693,6,0.986,7,1.026,8,0.769,9,1.065,10,0.312,11,0.463,12,0.463,13,0.463,14,0.693,15,0.693,16,1.15,17,0.463,18,0.463,19,0.463,20,0.769,21,0.463,22,0.099,23,1.274,24,0.693,25,0.693,26,0.693,27,1.148,28,1.065,29,1.148,30,0.693,31,0.986,32,1.475,33,0.693,34,1.15,35,0.693,36,0.693,37,0.693,38,0.693,39,0.463,40,0.693,41,0.463,42,0.693,43,0.693,44,0.693,45,0.693,46,0.693,47,0.693,48,0.693,49,1.15,50,0.693,51,1.15,52,0.693,53,0.693,54,0.693,55,0.693,56,1.15,57,0.693,58,0.693,59,0.693,60,0.693,61,0.693,62,0.693,63,0.693,64,0.693,65,1.15,66,0.463,67,0.693,68,0.693,69,0.693,70,0.693,71,1.15,72,1.15,73,0.463,74,0.693,75,0.693]],["title/1",[76,1.466,77,1.466,78,1.466]],["description/1",[4,0.338,7,1.187,9,0.712,10,0.712,19,1.058,22,0.076,28,1.105,29,1.443,66,1.058,73,1.058,79,1.583,80,2.158,81,1.583,82,1.583,83,1.583,84,1.583,85,1.583,86,1.583,87,1.583,88,0.971,89,1.583,90,1.583,91,1.583,92,1.583]],["title/2",[88,0.772,93,1.716]],["description/2",[3,1.071,4,0.341,7,0.721,8,1.071,9,0.721,10,0.979,11,1.071,13,1.071,17,1.071,18,1.071,20,1.071,21,1.071,22,0.105,23,1.071,27,1.071,28,0.721,31,1.071,39,1.071,41,1.071,88,0.721,94,1.602,95,1.602,96,1.602,97,1.602,98,1.602,99,1.602,100,1.602,101,1.602,102,1.602]],["title/3",[12,0.98,103,1.466,104,1.466]],["description/3",[105,2.374,106,2.374,107,2.374,108,2.374,109,2.374]],["title/4",[4,0.269,22,0.083]],["description/4",[]],["title/5",[4,0.178,6,0.758,22,0.055,110,1.134,111,1.134]],["description/5",[22,0.123]]],"invertedIndex":[["",{"_index":28,"title":{},"description":{"0":{},"1":{},"2":{}}}],["abil",{"_index":26,"title":{},"description":{"0":{}}}],["accuraci",{"_index":20,"title":{},"description":{"0":{},"2":{}}}],["ad",{"_index":106,"title":{},"description":{"3":{}}}],["advertis",{"_index":65,"title":{},"description":{"0":{}}}],["api",{"_index":88,"title":{"2":{}},"description":{"1":{},"2":{}}}],["app",{"_index":58,"title":{},"description":{"0":{}}}],["area",{"_index":9,"title":{},"description":{"0":{},"1":{},"2":{}}}],["assum",{"_index":91,"title":{},"description":{"1":{}}}],["case",{"_index":32,"title":{},"description":{"0":{}}}],["center",{"_index":98,"title":{},"description":{"2":{}}}],["certain",{"_index":5,"title":{},"description":{"0":{}}}],["circl",{"_index":13,"title":{},"description":{"0":{},"2":{}}}],["claim",{"_index":53,"title":{},"description":{"0":{}}}],["client",{"_index":92,"title":{},"description":{"1":{}}}],["commun",{"_index":84,"title":{},"description":{"1":{}}}],["confirm",{"_index":73,"title":{},"description":{"0":{},"1":{}}}],["connect",{"_index":82,"title":{},"description":{"1":{}}}],["content",{"_index":61,"title":{},"description":{"0":{}}}],["contradict",{"_index":90,"title":{},"description":{"1":{}}}],["coordin",{"_index":16,"title":{},"description":{"0":{}}}],["correctli",{"_index":75,"title":{},"description":{"0":{}}}],["countri",{"_index":52,"title":{},"description":{"0":{}}}],["current",{"_index":11,"title":{},"description":{"0":{},"2":{}}}],["custom",{"_index":1,"title":{},"description":{"0":{}}}],["definit",{"_index":78,"title":{"1":{}},"description":{}}],["deliveri",{"_index":62,"title":{},"description":{"0":{}}}],["depend",{"_index":24,"title":{},"description":{"0":{}}}],["determin",{"_index":14,"title":{},"description":{"0":{}}}],["devic",{"_index":7,"title":{},"description":{"0":{},"1":{},"2":{}}}],["document",{"_index":109,"title":{},"description":{"3":{}}}],["e.g",{"_index":60,"title":{},"description":{"0":{}}}],["endpoint/oper",{"_index":96,"title":{},"description":{"2":{}}}],["ensur",{"_index":49,"title":{},"description":{"0":{}}}],["entiti",{"_index":81,"title":{},"description":{"1":{}}}],["equip",{"_index":111,"title":{"5":{}},"description":{}}],["estim",{"_index":39,"title":{},"description":{"0":{},"2":{}}}],["execut",{"_index":110,"title":{"5":{}},"description":{}}],["expect",{"_index":19,"title":{},"description":{"0":{},"1":{}}}],["expos",{"_index":94,"title":{},"description":{"2":{}}}],["fake",{"_index":59,"title":{},"description":{"0":{}}}],["fals",{"_index":33,"title":{},"description":{"0":{}}}],["faq",{"_index":105,"title":{},"description":{"3":{}}}],["financi",{"_index":54,"title":{},"description":{"0":{}}}],["fraud",{"_index":47,"title":{},"description":{"0":{}}}],["function",{"_index":93,"title":{"2":{}},"description":{}}],["further",{"_index":103,"title":{"3":{}},"description":{}}],["geograph",{"_index":85,"title":{},"description":{"1":{}}}],["given",{"_index":50,"title":{},"description":{"0":{}}}],["gp",{"_index":56,"title":{},"description":{"0":{}}}],["guarante",{"_index":74,"title":{},"description":{"0":{}}}],["includ",{"_index":36,"title":{},"description":{"0":{}}}],["indic",{"_index":38,"title":{},"description":{"0":{}}}],["info",{"_index":104,"title":{"3":{}},"description":{}}],["interest",{"_index":68,"title":{},"description":{"0":{}}}],["introduct",{"_index":0,"title":{"0":{}},"description":{}}],["lastli",{"_index":42,"title":{},"description":{"0":{}}}],["later",{"_index":107,"title":{},"description":{"3":{}}}],["latitud",{"_index":17,"title":{},"description":{"0":{},"2":{}}}],["likelihood",{"_index":40,"title":{},"description":{"0":{}}}],["locat",{"_index":4,"title":{"4":{},"5":{}},"description":{"0":{},"1":{},"2":{}}}],["location-bas",{"_index":64,"title":{},"description":{"0":{}}}],["longitud",{"_index":18,"title":{},"description":{"0":{},"2":{}}}],["match",{"_index":31,"title":{},"description":{"0":{},"2":{}}}],["match_rat",{"_index":35,"title":{},"description":{"0":{}}}],["mobil",{"_index":70,"title":{},"description":{"0":{}}}],["network",{"_index":29,"title":{},"description":{"0":{},"1":{}}}],["network'",{"_index":25,"title":{},"description":{"0":{}}}],["oper",{"_index":99,"title":{},"description":{"2":{}}}],["option",{"_index":101,"title":{},"description":{"2":{}}}],["partial",{"_index":34,"title":{},"description":{"0":{}}}],["particip",{"_index":83,"title":{},"description":{"1":{}}}],["percent",{"_index":41,"title":{},"description":{"0":{},"2":{}}}],["physic",{"_index":80,"title":{},"description":{"1":{}}}],["process",{"_index":87,"title":{},"description":{"1":{}}}],["protect",{"_index":48,"title":{},"description":{"0":{}}}],["provid",{"_index":15,"title":{},"description":{"0":{}}}],["radiu",{"_index":21,"title":{},"description":{"0":{},"2":{}}}],["rate",{"_index":102,"title":{},"description":{"2":{}}}],["refer",{"_index":79,"title":{},"description":{"1":{}}}],["region",{"_index":51,"title":{},"description":{"0":{}}}],["relev",{"_index":76,"title":{"1":{}},"description":{}}],["rent",{"_index":72,"title":{},"description":{"0":{}}}],["report",{"_index":57,"title":{},"description":{"0":{}}}],["request",{"_index":27,"title":{},"description":{"0":{},"2":{}}}],["respons",{"_index":37,"title":{},"description":{"0":{}}}],["restrict",{"_index":63,"title":{},"description":{"0":{}}}],["result",{"_index":23,"title":{},"description":{"0":{},"2":{}}}],["retriev",{"_index":97,"title":{},"description":{"2":{}}}],["return",{"_index":100,"title":{},"description":{"2":{}}}],["scenario",{"_index":45,"title":{},"description":{"0":{}}}],["server",{"_index":89,"title":{},"description":{"1":{}}}],["singl",{"_index":95,"title":{},"description":{"2":{}}}],["smart",{"_index":69,"title":{},"description":{"0":{}}}],["specifi",{"_index":10,"title":{},"description":{"0":{},"1":{},"2":{}}}],["such",{"_index":46,"title":{},"description":{"0":{}}}],["support",{"_index":12,"title":{"3":{}},"description":{"0":{}}}],["surfac",{"_index":86,"title":{},"description":{"1":{}}}],["target",{"_index":67,"title":{},"description":{"0":{}}}],["term",{"_index":77,"title":{"1":{}},"description":{}}],["transact",{"_index":55,"title":{},"description":{"0":{}}}],["trigger",{"_index":66,"title":{},"description":{"0":{},"1":{}}}],["true",{"_index":30,"title":{},"description":{"0":{}}}],["unknown",{"_index":43,"title":{},"description":{"0":{}}}],["us",{"_index":44,"title":{},"description":{"0":{}}}],["user",{"_index":6,"title":{"5":{}},"description":{"0":{}}}],["vehicle/bik",{"_index":71,"title":{},"description":{"0":{}}}],["verif",{"_index":22,"title":{"4":{},"5":{}},"description":{"0":{},"1":{},"2":{},"5":{}}}],["verifi",{"_index":2,"title":{},"description":{"0":{}}}],["version",{"_index":108,"title":{},"description":{"3":{}}}],["whether",{"_index":3,"title":{},"description":{"0":{},"2":{}}}],["within",{"_index":8,"title":{},"description":{"0":{},"2":{}}}]],"pipeline":[]}},"options":{}};
+
+      var container = document.getElementById('redoc');
+      Redoc.hydrate(__redoc_state, container);
+
+      </script>
+</body>
+
+</html>
