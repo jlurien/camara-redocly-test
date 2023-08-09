@@ -20,6 +20,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .
-        force_orphan: true
         exclude_assets: '.github,code,utils,README.md'
+        keep_files: true
 
