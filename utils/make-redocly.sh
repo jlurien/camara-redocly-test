@@ -8,7 +8,8 @@ do
     # Read info.version from the yaml file and use it as the version for the HTML file
     version=$(grep "version:" $file | sed -n 's/\s*version:\s*//p')
     echo "Building $file for version $version"
-    npx @redocly/cli build-docs $file -o ./$(basename $file .yaml)_$(version).html
+    # Output filename is the same as the input filename, but with the version appended and the extension changed to .html
+    npx @redocly/cli build-docs $file -o $(basename $file .yaml)_$version.html
 done
 
 echo -e "\nDone!"
