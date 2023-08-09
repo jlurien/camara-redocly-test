@@ -2,8 +2,11 @@
 
 echo "Getting started"
 
-# Bundle docs into zero-dependency HTML file
-npx @redocly/cli build-docs ./code/API_definitions/location-verification.yaml -o ./index.html # && \
-# Add favicon
-#sed -i '7 i \ \ <link rel="icon" type="image/png" href="images/favicon.png"/>' index.html && \
+# Build docs for any yaml file in the directory "./code/API_definitions" into a zero-dependency HTML file with the same filename
+for file in ./code/API_definitions/*.yaml
+do
+    echo "Building $file"
+    npx @redocly/cli build-docs $file -o ./$(basename $file .yaml).html
+done
+
 echo -e "\nDone!"
