@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - code/API_definitions/*.yaml
 
 jobs:
   build:
@@ -11,7 +13,7 @@ jobs:
       contents: write
     steps:
     - uses: actions/checkout@v2
-    - name: Build docs
+    - name: Build Redocly docs
       run: ./utils/make-redocly.sh
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3 # https://github.com/peaceiris/actions-gh-pages
@@ -19,5 +21,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .
         force_orphan: true
-        exclude_assets: '.github,code,.redocly.yaml,utils,README.md'
+        exclude_assets: '.github,code,utils,README.md'
 
